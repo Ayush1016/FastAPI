@@ -24,3 +24,21 @@ async def create_products(data: ProductDTO):
     Products.append(data)
     return {"status":"Product created successfully","data":Products}
     # return {"message":"Product created"}
+
+# @app.put("/update_products")
+# async def update_products(data: ProductDTO, id: int):
+#     # data=data.model_dump()
+#     return {"status":"Product updated successfully","data":data}
+
+@app.put("/update_products/{id}")
+async def update_products(id: int, data: ProductDTO):
+
+    for product in Products:
+        if product["id"] == id:
+            product["name"] = data.name
+            product["price"] = data.price
+            return {
+                "status": "Product updated successfully","data": product
+            }
+
+    return {"status": "Product not found"}
